@@ -7,7 +7,8 @@ def get_download_link(video_url):
     """Extract the direct video download URL using yt-dlp"""
     ydl_opts = {
         'format': 'best',
-        'quiet': True
+        'quiet': True,
+        'cookies-from-browser': 'chrome'
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         try:
