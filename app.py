@@ -8,7 +8,7 @@ def get_download_link(video_url):
     ydl_opts = {
         'format': 'best',
         'quiet': True,
-        'cookies-from-browser': 'chrome'
+        'cookiefile': 'cookies.txt'
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         try:
