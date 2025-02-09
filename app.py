@@ -1,11 +1,5 @@
 from flask import Flask, render_template, request, jsonify
 import yt_dlp
-import os
-
-app = Flask(__name__)
-
-from flask import Flask, render_template, request, jsonify
-import yt_dlp
 
 app = Flask(__name__)
 
