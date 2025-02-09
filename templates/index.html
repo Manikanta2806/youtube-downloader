@@ -30,12 +30,6 @@
             background: #e03e7b;
             transform: scale(1.05);
         }
-        .instructions {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 15px;
-            border-radius: 10px;
-            font-weight: bold;
-        }
         .side-banner {
             position: fixed;
             top: 20%;
@@ -48,50 +42,6 @@
             right: 10px;
         }
     </style>
-    <script>
-         async function fetchDownloadLink() {
-        let videoUrl = document.getElementById("videoUrl").value;
-        if (!videoUrl) {
-            alert("Please enter a YouTube URL.");
-            return;
-        }
-
-        document.getElementById("loading").style.display = "block";
-        document.getElementById("downloadLink").innerHTML = "";
-
-        let formData = new FormData();
-        formData.append("video_url", videoUrl);
-
-        try {
-            let response = await fetch("/download", {
-                method: "POST",
-                body: formData
-            });
-
-            let result = await response.json();
-            console.log(result);  // Debugging
-
-            if (result.download_link) {
-                document.getElementById("downloadLink").innerHTML = `
-                    <a href="${result.download_link}" class="btn btn-success w-100 mt-3" download target="_blank">
-                        Download Video
-                    </a>
-                `;
-            } else {
-                document.getElementById("downloadLink").innerHTML = `
-                    <div class="alert alert-danger">Error fetching video. ${result.error || "Please try again."}</div>
-                `;
-            }
-        } catch (error) {
-            console.error("Fetch Error:", error);
-            document.getElementById("downloadLink").innerHTML = `
-                <div class="alert alert-danger">Failed to fetch video. Try again later.</div>
-            `;
-        } finally {
-            document.getElementById("loading").style.display = "none";
-        }
-    }
-    </script>
 </head>
 <body>
 
@@ -139,8 +89,6 @@
 
     <div class="card">
         <h2 class="text-center mb-4">YouTube Video Downloader</h2>
-
-        <!-- Image Above Input Field -->
         <div class="text-center mb-3">
             <img src="https://github.com/Manikanta2806/youtube-downloader/blob/main/vedio%20downloader.png?raw=true" 
                  alt="YouTube Downloader Logo" 
@@ -161,8 +109,8 @@
 
         <div id="downloadLink" class="mt-3"></div>
 
-        <!-- Big Banner Ad Below Download Button -->
-        <div class="text-center mt-4">
+          <!-- Big Banner Ad Below Download Button -->
+          <div class="text-center mt-4">
             <script type="text/javascript">
                 atOptions = {
                     'key' : 'e169bcd85dc931c03b5f5b9f317affd5',
@@ -175,9 +123,8 @@
             <script type="text/javascript" src="//www.highperformanceformat.com/e169bcd85dc931c03b5f5b9f317affd5/invoke.js"></script>
         </div>
     </div>
-
-    <!-- Step-by-step instructions -->
-    <div class="mt-4 instructions">
+     <!-- Step-by-step instructions -->
+     <div class="mt-4 instructions">
         <h4 class="text-center">How to Download a YouTube Video</h4>
         <ul>
             <li>📋 Paste the **YouTube Video URL** in the box above.</li>
@@ -189,7 +136,56 @@
     </div>
 </div>
 
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    async function fetchDownloadLink() {
+        let videoUrl = document.getElementById("videoUrl").value.trim();
+        
+        if (!videoUrl) {
+            alert("⚠️ Please enter a YouTube URL.");
+            return;
+        }
+
+        // Display loading spinner
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("downloadLink").innerHTML = "";
+
+        let formData = new FormData();
+        formData.append("video_url", videoUrl);
+
+        try {
+            let response = await fetch("/download", {
+                method: "POST",
+                body: formData
+            });
+
+            let result = await response.json();
+            console.log(result);  // Debugging
+
+            if (result.download_link) {
+                document.getElementById("downloadLink").innerHTML = `
+                    <a href="${result.download_link}" class="btn btn-success w-100 mt-3" download target="_blank">
+                        Download Video
+                    </a>
+                `;
+            } else {
+                document.getElementById("downloadLink").innerHTML = `
+                    <div class="alert alert-danger">❌ Error fetching video. ${result.error || "Please try again."}</div>
+                `;
+            }
+        } catch (error) {
+            console.error("Fetch Error:", error);
+            document.getElementById("downloadLink").innerHTML = `
+                <div class="alert alert-danger">⚠️ Failed to fetch video. Try again later.</div>
+            `;
+        } finally {
+            document.getElementById("loading").style.display = "none";
+        }
+    }
+</script>
+
 <script type='text/javascript' src='//pl25808597.effectiveratecpm.com/33/ca/64/33ca644c07fc16f56d1db36bb0939638.js'></script>
 </body>
 </html>
