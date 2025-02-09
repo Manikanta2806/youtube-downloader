@@ -13,14 +13,13 @@ def get_download_link(video_url):
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         try:
             info = ydl.extract_info(video_url, download=False)
-            return info['url']  # Direct video URL
+            return info.get('url')  # Direct video URL
         except Exception as e:
             print(f"Error: {e}")
             return None
 
-
 @app.route('/')
-def index():
+def home():  # Renamed from index() to home()
     return render_template('index.html')
 
 @app.route('/download', methods=['POST'])
@@ -32,28 +31,6 @@ def download():
         return jsonify({'download_link': download_link})
     else:
         return jsonify({'error': 'Failed to fetch video. Please try again.'})
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/download', methods=['POST'])
-def download():
-    video_url = request.form.get('video_url')
-    
-    if not video_url:
-        return jsonify({'error': 'Please provide a valid video URL.'})
-
-    download_link = get_download_link(video_url)
-
-    if download_link:
-        return jsonify({'download_link': download_link})
-    else:
-        return jsonify({'error': 'Failed to fetch video. Please try again or check cookies.'})
 
 if __name__ == '__main__':
     app.run(debug=True)
