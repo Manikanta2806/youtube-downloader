@@ -2,20 +2,28 @@ from flask import Flask, render_template, request, jsonify
 import yt_dlp
 
 app = Flask(__name__)
-
 def get_download_link(video_url):
-    """Extract the direct video download URL using yt-dlp"""
+    """Extract the direct video download URL using yt-dlp with cookies"""
     ydl_opts = {
-         'format': 'best',
+        'format': 'bestvideo+bestaudio/best',
         'quiet': True,
-        'cookies-from-browser': 'chrome'
+        'noplaylist': True,
+        'geo_bypass': True,
+        'cookies': 'cookies.txt'  # Path to your exported cookies
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         try:
             info = ydl.extract_info(video_url, download=False)
-            return info['url']  # Direct video URL
+            if 'url' in info:
+                return info['url']
+            elif 'formats' in info:
+                return info['formats'][-1]['url']
+            else:
+                return None
         except Exception as e:
+            print(f"Error: {e}")
             return None
+
 
 @app.route('/')
 def index():
