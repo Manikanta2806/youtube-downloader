@@ -3,6 +3,4 @@ requests==2.32.3
 pytube==15.0.0
 yt-dlp==2025.1.26
 gunicorn==21.2.0
-# Additional Dependencies (for deployment)
-werkzeug==2.3.0      # To support Flask functionality
-python-dotenv==0.21.1 # For managing environment variables (useful for configuration)
+
