@@ -5,6 +5,4 @@ yt-dlp==2025.1.26
 gunicorn==21.2.0
 # Additional Dependencies (for deployment)
 werkzeug==2.3.0      # To support Flask functionality
-gevent==22.10.0       # For asynchronous task management (useful with Gunicorn)
-Flask-Cors==3.1.1     # If your app needs Cross-Origin Resource Sharing (CORS)
 python-dotenv==0.21.1 # For managing environment variables (useful for configuration)
